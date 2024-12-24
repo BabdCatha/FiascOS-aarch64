@@ -1,6 +1,6 @@
-CFILES = $(wildcard ../Code/*.c)
+CFILES = $(wildcard ../Code/*/*.c) $(wildcard ../Code/*.c)
 OFILES = $(CFILES:.c=.o)
-GCCFLAGS = -Wall -O2 -ffreestanding -nostdinc -nostdlib -nostartfiles
+GCCFLAGS = -Wall -O2 -ffreestanding -nostdinc -nostdlib -nostartfiles -I../Code
 
 all: clean kernel8.img
 
