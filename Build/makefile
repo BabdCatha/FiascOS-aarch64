@@ -19,3 +19,4 @@ run: kernel8.img
 
 clean:
 	rm kernel8.elf *.o *.img > /dev/null 2> /dev/null || true
+	rm  ../Code/*.o ../Code/klib/*.o > /dev/null 2> /dev/null || true

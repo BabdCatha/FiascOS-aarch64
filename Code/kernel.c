@@ -1,5 +1,7 @@
 #include "uart.h"
 #include "mbox.h"
+#include "klib/time.h"
+#include "klib/rand.h"
 
 void main()
 {
@@ -28,9 +30,17 @@ void main()
         uart_puts("Unable to query serial!\n");
     }
 
-    // echo everything back
-    while(1) {
-        char received = uart_getc();
-        uart_send(received);
+    int i = 0;
+
+    wait_micro_st(10000000);
+
+    for(i = 0; i < 5; i++){
+        uart_hex(rand(0,4294967295));
+        uart_puts("\n");
     }
+
+    while(1){
+
+    }
+
 }
