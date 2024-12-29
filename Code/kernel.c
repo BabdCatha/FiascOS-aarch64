@@ -2,6 +2,7 @@
 #include "mbox.h"
 #include "klib/time.h"
 #include "klib/rand.h"
+#include "klib/power.h"
 
 void main()
 {

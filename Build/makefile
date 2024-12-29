@@ -1,3 +1,6 @@
+MAKEFILEPATH := $(abspath $(lastword $(MAKEFILE_LIST)))
+CURRENTDIR := $(notdir $(patsubst %/,%,$(dir $(mkfile_path))))
+
 CFILES = $(wildcard ../Code/*/*.c) $(wildcard ../Code/*.c)
 OFILES = $(CFILES:.c=.o)
 GCCFLAGS = -Wall -O2 -ffreestanding -nostdinc -nostdlib -nostartfiles -I../Code
@@ -8,7 +11,7 @@ boot.o: ../Code/boot.S
 	aarch64-none-elf-gcc $(GCCFLAGS) -c ../Code/boot.S -o boot.o
 
 %.o: %.c
-	aarch64-none-elf-gcc $(GCCFLAGS) -c $< -o $@
+	aarch64-none-elf-gcc $(GCCFLAGS) -c $< -o ../Build/$@
 
 kernel8.img: boot.o $(OFILES)
 	aarch64-none-elf-ld -nostdlib boot.o $(OFILES) -T linker.ld -o kernel8.elf
