@@ -3,6 +3,9 @@
 #include "klib/time.h"
 #include "klib/rand.h"
 #include "klib/power.h"
+#include "klib/display.h"
+
+#include "klib/koupen.h"
 
 void main()
 {
@@ -30,6 +33,9 @@ void main()
     } else {
         uart_puts("Unable to query serial!\n");
     }
+
+    lfb_init();
+    lfb_showpicture(image_data, IMAGE_WIDTH, IMAGE_HEIGHT, 0, 0);
 
     int i = 0;
 
