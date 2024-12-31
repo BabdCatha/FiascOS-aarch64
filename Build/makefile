@@ -13,8 +13,14 @@ boot.o: ../Code/boot.S
 %.o: %.c
 	aarch64-none-elf-gcc $(GCCFLAGS) -c $< -o $@
 
-kernel8.img: boot.o $(OFILES)
-	aarch64-none-elf-ld -nostdlib boot.o $(OFILES) -T linker.ld -o kernel8.elf
+font_psf.o: ../Code/fonts/font.psf
+	aarch64-none-elf-ld -r -b binary -o $@ $<
+
+font_sfn.o: ../Code/fonts/font.sfn
+	aarch64-none-elf-ld -r -b binary -o $@ $<
+
+kernel8.img: boot.o font_psf.o font_sfn.o $(OFILES)
+	aarch64-none-elf-ld -nostdlib boot.o font_psf.o font_sfn.o $(OFILES) -T linker.ld -o kernel8.elf
 	aarch64-none-elf-objcopy -O binary kernel8.elf kernel8.img
 
 run: kernel8.img

@@ -35,7 +35,11 @@ void main()
     }
 
     lfb_init();
-    lfb_showpicture(image_data, IMAGE_WIDTH, IMAGE_HEIGHT, 0, 0);
+    lfb_showpicture(image_data, IMAGE_WIDTH, IMAGE_HEIGHT, 1920-IMAGE_WIDTH, 1080-IMAGE_HEIGHT);
+
+    lfb_print(80, 80, "Hello World!");
+
+    lfb_proprint(80, 120, "Hello 多种语言 Многоязычный többnyelvű World!");
 
     int i = 0;
 
