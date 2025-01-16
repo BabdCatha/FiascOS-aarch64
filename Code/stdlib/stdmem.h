@@ -1,0 +1,1 @@
+void memmove(const void* src, void* dst, int size);

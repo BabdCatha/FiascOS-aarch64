@@ -34,24 +34,23 @@ void main()
         uart_puts("Unable to query serial!\n");
     }
 
-    lfb_init();
-    lfb_showpicture(image_data, IMAGE_WIDTH, IMAGE_HEIGHT, 1920-IMAGE_WIDTH, 1080-IMAGE_HEIGHT);
+    lfb_init_tty();
+    //lfb_showpicture(image_data, IMAGE_WIDTH, IMAGE_HEIGHT, 1920-IMAGE_WIDTH, 1080-IMAGE_HEIGHT);
 
-    lfb_print(80, 80, "Hello World!");
+    tty_putc('H');
+    tty_putc('e');
+    tty_putc('l');
+    tty_putc('l');
+    tty_putc('o');
+    tty_putc('\n');
 
-    lfb_proprint(80, 120, "Hello 多种语言 Многоязычный többnyelvű World!");
-
-    int i = 0;
-
-    wait_micro_st(10000000);
-
-    for(i = 0; i < 5; i++){
-        uart_hex(rand(0,4294967295));
-        uart_puts("\n");
-    }
+    int y = 0;
+    char test[] = "abc";
 
     while(1){
-
+        wait_micro(500000);
+        tty_printf("test: %d + %s\n", y, &test);
+        y++;
     }
 
 }

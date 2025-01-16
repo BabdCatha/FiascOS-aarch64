@@ -1,6 +1,11 @@
 #include "uart.h"
 #include "mbox.h"
 #include "time.h"
+#include "../stdlib/stdmem.h"
+
+#include <stdarg.h>
+
+#define FONT_HEIGHT 16
 
 /* PC Screen Font as used by Linux Console */
 typedef struct {
@@ -34,8 +39,12 @@ typedef struct {
 } __attribute__((packed)) sfn_t;
 extern volatile unsigned char _binary____Code_fonts_font_sfn_start;
 
-
-void lfb_init();
+void lfb_init_tty();
 void lfb_showpicture(uint32_t* data, int image_width, int image_height, int print_x, int print_y);
-void lfb_print(int x, int y, char *s);
-void lfb_proprint(int x, int y, char *s);
+void lfb_print(int x, int y, char s);
+void lfb_proprint_s(int x, int y, char* s);
+void lfb_scroll(int delta_y);
+void tty_putc(char c);
+void tty_printf(const char* fmt, ...);
+void tty_printf_number(va_list* args, int length, bool sign, int radix);
+void tty_clearline(int line_y);
