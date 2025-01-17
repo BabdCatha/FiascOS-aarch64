@@ -65,6 +65,7 @@ void lfb_init_tty(){
         isrgb=mbox[24];         //get the actual channel order
         lfb=(void*)((unsigned long)mbox[28]);
     } else {
+        //Printing in uart since tty is not available
         uart_puts("Unable to set screen resolution to 1920x1080x32\n");
     }
 
@@ -158,7 +159,7 @@ void lfb_print(int x, int y, char s){
 
     // get the offset of the glyph. Need to adjust this to support unicode table
     unsigned char *glyph = (unsigned char*)&_binary____Code_fonts_font_psf_start +
-        font->headersize + (*((unsigned char*)s)<font->numglyph?s:0)*font->bytesperglyph;
+        font->headersize + (((unsigned char)s)<font->numglyph?s:0)*font->bytesperglyph;
     // calculate the offset on screen
     int offs = (y * screen_pitch) + (x * 4);
     // variables
@@ -185,7 +186,7 @@ void lfb_print(int x, int y, char s){
 }
 
 /**
- * Display a char using proportional SSFN
+ * Display a string using proportional SSFN
  */
 void lfb_proprint_s(int x, int y, char* s){
     // get our font
@@ -265,8 +266,8 @@ void tty_putc(char c){
 
     //Todo: find why print fails on real hardware
     //Get rid of this array thing
-    char str[2] = "x\0";
-    str[0] = c;
+    //char str[2] = "x\0";
+    //str[0] = c;
 
     if(c == '\n'){
         tty_x = 0;
@@ -294,7 +295,7 @@ void tty_putc(char c){
         tty_x = 0;
         return;
     }else{
-        lfb_proprint_s(tty_x, tty_y, &str);
+        lfb_print(tty_x, tty_y, c);
         tty_x += 8;
     }
 
@@ -399,7 +400,7 @@ void tty_printf(const char* fmt, ...){
                         break;
 
                     case 's':
-                        tty_puts((char*)va_arg(args, int));
+                        tty_puts(va_arg(args, char*));
                         break;
 
                     case '%':
@@ -454,8 +455,8 @@ void tty_printf(const char* fmt, ...){
 }
 
 void tty_clearline(int line_y){
-    uint32_t* buffer = lfb + line_y*screen_pitch;
-    uint32_t* line_end = buffer + screen_pitch;
+    uint8_t* buffer = lfb + line_y*screen_pitch;
+    uint8_t* line_end = buffer + screen_pitch;
 
     while(buffer <= line_end){
         *buffer++ = 0x00000000;
@@ -469,7 +470,7 @@ const char g_hex_chars[] = {"0123456789abcdef"};
 void tty_printf_number(va_list* args, int length, bool sign, int radix){
 
     char buffer[32];
-    unsigned long long number;
+    unsigned long long number = 0;
     int number_sign = 1;
     int pos = 0;
 

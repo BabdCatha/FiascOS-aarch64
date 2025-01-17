@@ -11,7 +11,11 @@ void main()
 {
     // set up serial console
     uart_init();
-    
+
+    lfb_init_tty();
+    tty_printf("FiascOS starting\n");
+    //lfb_showpicture(image_data, IMAGE_WIDTH, IMAGE_HEIGHT, 1920-IMAGE_WIDTH, 1080-IMAGE_HEIGHT);
+
     // get the board's unique serial number with a mailbox call
     mbox[0] = 8*4;                  // length of the message
     mbox[1] = MBOX_REQUEST;         // this is a request message
@@ -26,23 +30,10 @@ void main()
 
     // send the message to the GPU and receive answer
     if (mbox_call(MBOX_CH_PROP)) {
-        uart_puts("My serial number is: 0x");
-        uart_hex(mbox[6]);
-        uart_hex(mbox[5]);
-        uart_puts("\n");
+        tty_printf("Serial number: 0x%x%x\n", mbox[6], mbox[5]);
     } else {
-        uart_puts("Unable to query serial!\n");
+        tty_printf("Unable to query serial!\n");
     }
-
-    lfb_init_tty();
-    //lfb_showpicture(image_data, IMAGE_WIDTH, IMAGE_HEIGHT, 1920-IMAGE_WIDTH, 1080-IMAGE_HEIGHT);
-
-    tty_putc('H');
-    tty_putc('e');
-    tty_putc('l');
-    tty_putc('l');
-    tty_putc('o');
-    tty_putc('\n');
 
     int y = 0;
     char test[] = "abc";
