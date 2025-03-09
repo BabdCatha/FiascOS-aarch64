@@ -264,11 +264,6 @@ void lfb_proprint_s(int x, int y, char* s){
 
 void tty_putc(char c){
 
-    //Todo: find why print fails on real hardware
-    //Get rid of this array thing
-    //char str[2] = "x\0";
-    //str[0] = c;
-
     if(c == '\n'){
         tty_x = 0;
 
@@ -276,7 +271,7 @@ void tty_putc(char c){
             int j = 0;
             for(j = FONT_HEIGHT; j < screen_height; j++){
                 //TODO: Replace the arbitrary value of 1/3 of the screen with something that can work in all cases
-                memmove(lfb + j*screen_pitch, lfb + (j - FONT_HEIGHT)*screen_pitch, screen_width/3);
+                memmove(lfb + j*screen_pitch, lfb + (j - FONT_HEIGHT)*screen_pitch, screen_width*4/3);
             }
             int i = 0;
             for(i = 0; i < FONT_HEIGHT; i++){
@@ -285,10 +280,6 @@ void tty_putc(char c){
         }else{
             tty_y += 16;
         }
-
-        /*if(tty_y > (2*screen_height) - FONT_HEIGHT){
-            tty_y = screen_height - FONT_HEIGHT;
-        }*/
 
         return;
     }else if(c == '\r'){

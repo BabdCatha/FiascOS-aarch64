@@ -1,3 +1,6 @@
+#ifndef _DISPLAY_H
+#define _DISPLAY_H 1
+
 #include "uart.h"
 #include "mbox.h"
 #include "time.h"
@@ -48,3 +51,5 @@ void tty_putc(char c);
 void tty_printf(const char* fmt, ...);
 void tty_printf_number(va_list* args, int length, bool sign, int radix);
 void tty_clearline(int line_y);
+
+#endif

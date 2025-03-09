@@ -3,7 +3,7 @@ CURRENTDIR := $(notdir $(patsubst %/,%,$(dir $(mkfile_path))))
 
 CFILES = $(wildcard ../Code/*/*.c) $(wildcard ../Code/*.c)
 OFILES = $(CFILES:.c=.o)
-GCCFLAGS = -Wall -O4 -ffreestanding -nostdinc -nostdlib -nostartfiles -I../Code
+GCCFLAGS = -Wall -O3 -ffreestanding -nostdinc -nostdlib -nostartfiles -mstrict-align -I../Code
 
 all: clean kernel8.img
 
